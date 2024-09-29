@@ -5,14 +5,14 @@ import esbuild from 'esbuild';
 export default defineConfig({
   plugins: [
     remix({
-      appDirectory: 'src',
+      appDirectory: 'src/renderer',
       serverModuleFormat: 'esm',
       buildDirectory: 'build',
       serverBuildFile: 'remix.js',
       buildEnd: async () => {
         await esbuild
           .build({
-            alias: { '~': './src' },
+            alias: { '~': './src/renderer' },
             outfile: 'build/server/index.js',
             entryPoints: ['server.ts'],
             external: ['./build/server/*'],
