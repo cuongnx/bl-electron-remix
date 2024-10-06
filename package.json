@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "prepare": "husky"
+    "prepare": "husky",
+    "preinstall": "node check-node-version.js"
   },
   "dependencies": {
     "@remix-run/express": "^2.12.1",
@@ -19,7 +20,8 @@
     "express": "^4.21.0",
     "isbot": "^4.4.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "semver": "^7.6.3"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.12.1",
@@ -51,5 +53,9 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "npm run lint",
     "*.{js,jsx,ts,tsx,css,md,html,json}": "prettier --cache --write"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

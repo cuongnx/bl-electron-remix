@@ -42,3 +42,7 @@
 - Separate scripts for running dev server and prod server
 - Separete vite.config.ts for main and renderer. For renderer dev server, change setting in the dev script so that the `createServer()` reads renderer's vite config file.
 - Running `npm run dev` and wow, it works!!!
+
+### Note
+
+- Because I realized that many things depend on node version, I installed semver and configure the `check-node-version.js` script.
