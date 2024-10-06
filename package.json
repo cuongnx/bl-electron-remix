@@ -1,8 +1,9 @@
 {
   "type": "module",
+  "main": "build/main/main.js",
   "scripts": {
+    "dev": "node --loader ts-node/esm ./server.dev.ts",
     "build": "remix vite:build",
-    "dev": "node --loader ts-node/esm ./server.ts",
     "start": "npm run build && npx cross-env NODE_ENV=production cross-env NODE_ENV=production node ./build/server/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
@@ -28,6 +29,7 @@
     "@typescript-eslint/eslint-plugin": "^8.7.0",
     "@typescript-eslint/parser": "^8.7.0",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^9.0.1",
     "electron": "^32.1.2",
     "electron-builder": "^25.0.5",
     "electron-serve": "^2.1.1",

@@ -25,20 +25,22 @@ const createWindow = (
     height: options.height || 600,
   };
   let state = {};
-  let win = new BrowserWindow();
+  let win: BrowserWindow | null = null;
 
   const restore: () => WindowState = () =>
     store.get(key, defaultSize) as WindowState;
 
   const getCurrentPosition = () => {
-    const position = win.getPosition();
-    const size = win.getSize();
-    return {
-      x: position[0],
-      y: position[1],
-      width: size[0],
-      height: size[1],
-    };
+    if (win) {
+      const position = win.getPosition();
+      const size = win.getSize();
+      return {
+        x: position[0],
+        y: position[1],
+        width: size[0],
+        height: size[1],
+      };
+    }
   };
 
   const windowWithinBounds = (windowState: WindowState, bounds: Rectangle) => {
@@ -71,7 +73,7 @@ const createWindow = (
   };
 
   const saveState = () => {
-    if (!win.isMinimized() && !win.isMaximized()) {
+    if (win && !win.isMinimized() && !win.isMaximized()) {
       Object.assign(state, getCurrentPosition());
     }
     store.set(key, state);

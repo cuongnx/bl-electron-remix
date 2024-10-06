@@ -13,16 +13,19 @@ void (async () => {
   const mainWindow = createWindow('main', {
     width: 1000,
     height: 600,
-    icon: '../resources/icon.png',
+    icon: '../../resources/icon.png',
   });
-  mainWindow.setMenu(null);
+  // mainWindow.setMenu(null);
 
   if (app.isPackaged && appServe) {
     await appServe(mainWindow);
     mainWindow.loadURL('app://-');
   } else {
-    await mainWindow.loadURL(`http://localhost:8888`);
-    mainWindow.webContents.openDevTools();
+    const port = process.env.PORT || process.env.DEV_PORT;
+    const localUrl =
+      process.env.VITE_DEV_SERVER_URL || `http://localhost:${port}`;
+    await mainWindow.loadURL(localUrl);
+    // mainWindow.webContents.openDevTools();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mainWindow.webContents.on('did-fail-load', (e, code, desc) => {
       mainWindow.webContents.reloadIgnoringCache();
