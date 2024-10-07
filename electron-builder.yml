@@ -1,0 +1,15 @@
+appId: vn.cuongnx.electron-remix
+productName: "Electron Remix App"
+copyright: CuongNX
+directories:
+  output: dist
+  buildResources: resources
+files:
+  - from: .
+    filter:
+      - package.json
+      - build
+win:
+  target: portable
+  icon: resources/icon.png
+publish: null

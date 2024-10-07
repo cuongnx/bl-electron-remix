@@ -1,8 +1,11 @@
+import { join } from 'node:path';
 import { app } from 'electron';
 import serve from 'electron-serve';
 import { createWindow } from './helpers';
 
-const appServe = app.isPackaged ? serve({ directory: '../../build' }) : null;
+const RENDERER_BUILD_DIR = join('..', '..', 'build', 'renderer', 'client');
+
+const appServe = serve({ directory: RENDERER_BUILD_DIR });
 
 app.setPath('userData', `${app.getPath('userData')} (development)`);
 app.setPath('sessionData', `${app.getPath('userData')} (development)`);
@@ -19,13 +22,12 @@ void (async () => {
 
   if (app.isPackaged && appServe) {
     await appServe(mainWindow);
-    mainWindow.loadURL('app://-');
   } else {
     const port = process.env.PORT || process.env.DEV_PORT;
     const localUrl =
       process.env.VITE_DEV_SERVER_URL || `http://localhost:${port}`;
     await mainWindow.loadURL(localUrl);
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mainWindow.webContents.on('did-fail-load', (e, code, desc) => {
       mainWindow.webContents.reloadIgnoringCache();

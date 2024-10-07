@@ -5,7 +5,7 @@ import esbuild from 'esbuild';
 
 const PACKAGE_ROOT = __dirname;
 const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
-const BUILD_DIR = join(PROJECT_ROOT, 'build', 'renderer');
+const RENDERER_BUILD_DIR = join(PROJECT_ROOT, 'build', 'renderer');
 
 export default defineConfig({
   mode: process.env.NODE_ENV,
@@ -13,13 +13,13 @@ export default defineConfig({
   envDir: PROJECT_ROOT,
   resolve: {
     alias: {
-      '/@/': join(PACKAGE_ROOT, 'src') + '/',
+      '@/': join(PROJECT_ROOT, 'src') + '/',
     },
   },
   build: {
-    sourcemap: 'inline',
+    sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
     target: 'modules',
-    outDir: BUILD_DIR,
+    outDir: RENDERER_BUILD_DIR,
     assetsDir: '.',
     minify: process.env.NODE_ENV !== 'development',
     rollupOptions: {},
@@ -28,17 +28,18 @@ export default defineConfig({
   },
   plugins: [
     remix({
+      ssr: false,
       appDirectory: 'src/renderer',
       serverModuleFormat: 'esm',
-      buildDirectory: 'build',
+      buildDirectory: RENDERER_BUILD_DIR,
       serverBuildFile: 'remix.js',
       buildEnd: async () => {
         await esbuild
           .build({
             alias: { '~': './src/renderer' },
-            outfile: 'build/server/index.js',
-            entryPoints: ['server.ts'],
-            external: ['./build/server/*'],
+            outfile: `${RENDERER_BUILD_DIR}/server/index.js`,
+            entryPoints: ['server.prod.ts'],
+            external: [`${RENDERER_BUILD_DIR}/server/*`],
             platform: 'node',
             format: 'esm',
             packages: 'external',

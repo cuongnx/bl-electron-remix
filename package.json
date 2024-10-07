@@ -1,17 +1,23 @@
 {
+  "name": "bl-electron-remix",
   "type": "module",
   "main": "build/main/main.js",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "node --loader ts-node/esm ./server.dev.ts",
-    "build": "remix vite:build",
-    "start": "npm run build && npx cross-env NODE_ENV=production cross-env NODE_ENV=production node ./build/server/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "prepare": "husky",
-    "preinstall": "node check-node-version.js"
+    "preinstall": "node check-node-version.js",
+    "dev": "node --loader ts-node/esm ./server.dev.ts",
+    "build:renderer": "NODE_ENV=production remix vite:build -c src/renderer/vite.config.ts",
+    "build:app": "npm run build:win64",
+    "build:win64": "npm run build:renderer && ./electron-builder.sh --win --x64",
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "electron-serve": "^2.1.1",
+    "electron-store": "^10.0.0",
     "@remix-run/express": "^2.12.1",
     "@remix-run/node": "^2.12.1",
     "@remix-run/react": "^2.12.1",
@@ -34,8 +40,6 @@
     "concurrently": "^9.0.1",
     "electron": "^32.1.2",
     "electron-builder": "^25.0.5",
-    "electron-serve": "^2.1.1",
-    "electron-store": "^10.0.0",
     "esbuild": "^0.23.1",
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^9.1.0",

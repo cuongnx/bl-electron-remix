@@ -43,6 +43,28 @@
 - Separete vite.config.ts for main and renderer. For renderer dev server, change setting in the dev script so that the `createServer()` reads renderer's vite config file.
 - Running `npm run dev` and wow, it works!!!
 
+### Now moving on to production build
+
+- Install electron-builder
+  npm i -D electron-builder
+- Now I realized that electron-serve must be install as dependency (not dev dependency), so I moved it to `"dependencies"` of `package.json`
+- Created a `electron-builder.yml` and `electron-builder.sh` to run builder by docker for windows
+- Created `server.prod.ts` for remix production build (but it's really not necessary)
+- Fixed `src/main/main.ts` to serve the right directory `../../build/renderer/client`
+- Add `npm run build:app` to build both remix in SPA mode and the main electron application. For now it's only support win64 portable build (as an example).
+
 ### Note
 
 - Because I realized that many things depend on node version, I installed semver and configure the `check-node-version.js` script.
+
+# Usage
+
+### Run dev server
+
+`npm run dev`
+
+### Build production app
+
+`npm run build:app`
+
+_Note: if you are using WSL2 to develop, you cannot run the built exe file directly from WSL partition. Must copy the file to a Windows folder and run_
