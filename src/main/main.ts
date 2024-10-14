@@ -3,7 +3,7 @@ import { app } from 'electron';
 import serve from 'electron-serve';
 import { createWindow } from './helpers';
 
-const RENDERER_BUILD_DIR = join('..', '..', 'build', 'renderer', 'client');
+const RENDERER_BUILD_DIR = join('.', 'build', 'renderer', 'client');
 
 const appServe = serve({ directory: RENDERER_BUILD_DIR });
 
