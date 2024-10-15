@@ -50,8 +50,10 @@
 - Now I realized that electron-serve must be install as dependency (not dev dependency), so I moved it to `"dependencies"` of `package.json`
 - Created a `electron-builder.yml` and `electron-builder.sh` to run builder by docker for windows
 - Created `server.prod.ts` for remix production build (but it's really not necessary)
+- Made renderer build in SPA mode
 - Fixed `src/main/main.ts` to serve the right directory `../../build/renderer/client`
 - Add `npm run build:app` to build both remix in SPA mode and the main electron application. For now it's only support win64 portable build (as an example).
+- Move @remix/XXX, react package into devDependencies because production build doesn't need them
 
 ### Note
 
