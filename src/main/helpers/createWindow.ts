@@ -86,7 +86,7 @@ const createWindow = (
     ...state,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: true,
       ...options.webPreferences,
     },
   };

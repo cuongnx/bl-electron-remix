@@ -2,8 +2,15 @@ import { join } from 'node:path';
 import { app } from 'electron';
 import serve from 'electron-serve';
 import { createWindow } from './helpers';
+import createMenus from './helpers/createMenus';
 
-const RENDERER_BUILD_DIR = join('.', 'build', 'renderer', 'client');
+const RENDERER_BUILD_DIR = join(
+  app.getAppPath(),
+  'build',
+  'renderer',
+  'client',
+);
+const PRELOAD_BUILD_DIR = join(app.getAppPath(), 'build', 'preload');
 
 const appServe = serve({ directory: RENDERER_BUILD_DIR });
 
@@ -17,8 +24,11 @@ void (async () => {
     width: 1000,
     height: 600,
     icon: '../../resources/icon.png',
+    webPreferences: {
+      preload: join(PRELOAD_BUILD_DIR, 'preload.mjs'),
+    },
   });
-  // mainWindow.setMenu(null);
+  createMenus(app, mainWindow);
 
   if (app.isPackaged && appServe) {
     await appServe(mainWindow);
